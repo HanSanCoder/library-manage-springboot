@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.book.app.dao.BookDao">
+    <insert id="save">
+        INSERT INTO book (cateid, bname, price, author, ddesc, quantity, createtime)
+        values(#{cateid}, #{bname}, #{price}, #{author}, #{ddesc}, #{quantity}, now())
+    </insert>
+
+    <update id="update">
+        update book
+        set bname=#{bname},price=#{price}, author=#{author}, ddesc=#{ddesc}, quantity=#{quantity}, modifytime=now()
+        where bid = #{bid}
+    </update>
+    <delete id="remove">
+        update book
+        set deleted = 1
+        where bid = #{bid}
+    </delete>
+
+    <select id="listPager" resultType="com.book.app.bean.Book">
+        select b.*, c.catename from book b,category c
+        <where>
+            <if test="bname!=null and bname!=''">
+                bname like '%${bname}%'
+            </if>
+            and b.deleted=0
+            and b.cateid=c.cateid
+        </where>
+        limit #{page},#{size}
+    </select>
+
+    <select id="count" resultType="java.lang.Integer">
+        select count(b.cateid) from book b left join category c on b.cateid = c.cateid
+        <where>
+            <if test="bname!=null and bname!=''">
+                bname like '%${bname}%'
+            </if>
+            and b.deleted=0
+        </where>
+    </select>
+</mapper>

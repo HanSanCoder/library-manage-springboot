@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.book.app.dao.BorrowDao">
+
+    <!--<select id="listPager" resultType="com.book.app.bean.">-->
+    <!--    select * from book-->
+    <!--    <where>-->
+    <!--        <if test="bname!=null and bname!=''">-->
+    <!--            bname like '%${bname}%'-->
+    <!--        </if>-->
+    <!--        and deleted=0-->
+    <!--    </where>-->
+    <!--    limit #{page},#{size}-->
+    <!--</select>-->
+    <!--<select id="count" resultType="java.lang.Integer">-->
+    <!--    select count(bid) from book-->
+    <!--    <where>-->
+    <!--        <if test="bname!=null and bname!=''">-->
+    <!--            bname like '%${bname}%'-->
+    <!--        </if>-->
+    <!--        and deleted=0-->
+    <!--    </where>-->
+    <!--</select>-->
+
+    <select id="listPage" resultType="com.book.app.bean.Borrow">
+        select * from borrow
+        <where>
+            <if test="bname!=null and bname!=''">
+                name like '%${bname}%'
+            </if>
+            <if test="uname!=null and uname!=''">
+                and uname like '%${uname}%'
+            </if>
+                and deleted=0
+        </where>
+        limit #{page}, #{size}
+    </select>
+    <select id="count" resultType="java.lang.Long">
+        select count(boid) from borrow
+        <where>
+            <if test="bname!=null and bname!=''">
+                name like '%${bname}%'
+            </if>
+            <if test="uname!=null and uname!=''">
+                and uname like '%${uname}%'
+            </if>
+            and deleted=0
+        </where>
+    </select>
+</mapper>
